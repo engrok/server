@@ -10,8 +10,9 @@ wss.on('connection', socket => {
     webSocket = socket;
     webSocket.on('message', function incoming(data) {
         if (response) {
-            console.log(data);
-            response.send(data.toString());
+            let passed = JSON.parse(data.toString());
+            response.set('content-type', passed.headers['content-type']);
+            response.send(passed.data);
         }
         response = null;
     });
@@ -19,11 +20,15 @@ wss.on('connection', socket => {
 
 app.listen(thirdPartyPort);
 
-app.get('/', function (req, res) {
+app.get('*', function (req, res) {
     if (!webSocket) {
         res.send('Client not connected!');
         return;
     }
-    webSocket.send(JSON.stringify(req.headers));
+    let data = {
+        url: req.originalUrl,
+        headers: req.headers
+    };
+    webSocket.send(JSON.stringify(data));
     response = res;
 });
