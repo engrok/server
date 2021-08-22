@@ -18,6 +18,7 @@
   "homepage": "https://github.com/engrok/server#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "uuid": "^8.3.2",
     "ws": "^8.1.0"
   }
 }
