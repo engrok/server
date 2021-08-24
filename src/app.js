@@ -22,21 +22,6 @@ wss.on('connection', socket => {
 
 app.listen(thirdPartyPort);
 
-app.get('*', function (req, res) {
-    if (!webSocket) {
-        res.send('Client not connected!');
-        return;
-    }
-    let id = uuidv4();
-    let data = {
-        url: req.originalUrl,
-        headers: req.headers,
-        id: id
-    };
-    response[id] = res;
-    webSocket.send(JSON.stringify(data));
-});
-
 function redirectToClient(req, res) {
     if (!webSocket) {
         res.send('Client not connected!');
@@ -56,4 +41,3 @@ function redirectToClient(req, res) {
 app.route('*')
     .get(redirectToClient)
     .post(redirectToClient)
-    
