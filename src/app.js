@@ -14,7 +14,7 @@ wss.on('connection', socket => {
         let currResponse = response[passed.id];
         if (currResponse) {
             currResponse.set('content-type', passed.headers['content-type']);
-            currResponse.send(passed.data)
+            currResponse.send(passed.data);
             delete response[passed.id];
         }
     });
@@ -36,3 +36,24 @@ app.get('*', function (req, res) {
     response[id] = res;
     webSocket.send(JSON.stringify(data));
 });
+
+function redirectToClient(req, res) {
+    if (!webSocket) {
+        res.send('Client not connected!');
+        return;
+    }
+    let id = uuidv4();
+    let data = {
+        url: req.originalUrl,
+        headers: req.headers,
+        id: id,
+        method: req.method
+    };
+    response[id] = res;
+    webSocket.send(JSON.stringify(data));
+}
+
+app.route('*')
+    .get(redirectToClient)
+    .post(redirectToClient)
+    
