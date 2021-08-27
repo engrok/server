@@ -13,7 +13,8 @@ wss.on('connection', socket => {
         let passed = JSON.parse(data);
         let currResponse = response[passed.id];
         if (currResponse) {
-            currResponse.set('content-type', passed.headers['content-type']);
+            currResponse.set(passed.headers);
+            currResponse.status(passed.status);
             currResponse.send(passed.data);
             delete response[passed.id];
         }
