@@ -11,12 +11,17 @@ wss.on('connection', socket => {
     webSocket = socket;
     webSocket.on('message', function incoming(data) {
         let passed = JSON.parse(data);
-        let currResponse = response[passed.id];
+        let currResponse = response[passed.data.id];
         if (currResponse) {
-            currResponse.set(passed.headers);
-            currResponse.status(passed.status);
-            currResponse.send(passed.data);
-            delete response[passed.id];
+            if (!passed.result) {
+                currResponse.send('Error occurred!');
+                delete response[passed.data.id];
+                return;
+            }
+            currResponse.set(passed.data.headers);
+            currResponse.status(passed.data.status);
+            currResponse.send(passed.data.data);
+            delete response[passed.data.id];
         }
     });
 });
