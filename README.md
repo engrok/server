@@ -1,7 +1,6 @@
 # engrok server
 
-![engrok](https://user-images.githubusercontent.com/55315742/132055748-a5b218d0-9574-4531-82dc-827e199b9c90.png)
-
+![engrok](https://user-images.githubusercontent.com/55315742/132056058-4ec3f9fd-1342-4fac-8ef4-b80ede294d21.jpg)
 
 ## Public IP
 ```
